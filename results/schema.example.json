@@ -1,0 +1,22 @@
+{
+  "engine": "rapid-mlx",
+  "engine_version": "0.0.0",
+  "engine_commit": "git-sha",
+  "model_id": "dev-4b",
+  "model_name": "default",
+  "quantization": "MLX-4bit",
+  "scenario": "short-responses",
+  "prompt_tokens": 0,
+  "completion_tokens": 0,
+  "ttft_seconds": null,
+  "total_seconds": 0.0,
+  "prompt_tps": null,
+  "decode_tps": null,
+  "cache_hit_tokens": null,
+  "peak_memory_gb": null,
+  "tool_calls_valid": null,
+  "tool_calls_total": null,
+  "error": null,
+  "created_at": "2026-08-31T00:00:00+00:00"
+}
+

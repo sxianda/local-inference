@@ -1,0 +1,26 @@
+.DS_Store
+.venv/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Machine-local configuration and runtime state
+config/models.local.yaml
+.run/
+*.pid
+*.log
+
+# Model weights and download caches must never enter Git
+*.safetensors
+*.gguf
+*.bin
+*.onnx
+*.mlx
+.downloads/
+
+# Raw results may contain prompts or local paths. Commit only sanitized JSON.
+results/raw/
+results/*.tmp
+

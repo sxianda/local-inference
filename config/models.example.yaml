@@ -1,0 +1,35 @@
+model_root: /Users/soleilx/Models
+
+models:
+  dev-4b:
+    path: /Users/soleilx/Models/Qwen3.5-4B-MLX-4bit
+    role: http-and-api-smoke
+    quantization: MLX-4bit
+    modelscope: lmstudio-community/Qwen3.5-4B-MLX-4bit
+    huggingface: mlx-community/Qwen3.5-4B-MLX-4bit
+    extra_args:
+      - --no-think
+
+  agent-9b:
+    path: /Users/soleilx/Models/Qwen3.5-9B-MLX-4bit
+    role: codex-agent-development
+    quantization: MLX-4bit
+    modelscope: lmstudio-community/Qwen3.5-9B-MLX-4bit
+    huggingface: mlx-community/Qwen3.5-9B-4bit
+
+  qwen38-27b:
+    path: /Users/soleilx/Models/Qwen3.8-27B-4bit
+    role: production-validation
+    quantization: MLX-4bit
+
+  qwen38-dflash2-q4:
+    path: /Users/soleilx/Models/Qwen3.8-27B-DFlash2-4bit
+    role: speculative-drafter
+    quantization: MLX-4bit
+    requires_tokenizer: false
+
+  qwen38-dflash2-bf16:
+    path: /Users/soleilx/Models/Qwen3.8-27B-DFlash2
+    role: speculative-drafter-reference
+    quantization: BF16
+    requires_tokenizer: false

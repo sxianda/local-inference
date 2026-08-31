@@ -1,0 +1,34 @@
+name: Validation phase
+description: Track one gated Rapid-MLX validation phase
+title: "[Validation] "
+labels: [validation]
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: State the behavior or decision this phase must validate.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: List observable pass/fail criteria.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Link sanitized logs, JSON results, tests, or follow-up issues.
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety checks
+      options:
+        - label: No weights, credentials, or private prompts will be committed.
+          required: true
+        - label: Existing model directories will not be overwritten.
+          required: true
+
