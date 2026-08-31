@@ -1,0 +1,31 @@
+{
+  "engine": "rapid-mlx",
+  "model_id": "dev-4b",
+  "scenario": "append-only-multiturn",
+  "turns": [
+    {
+      "turn": 1,
+      "ttft_seconds": 0.12040870799683034,
+      "total_seconds": 0.8264558329974534,
+      "prompt_tokens": 46,
+      "completion_tokens": 79
+    },
+    {
+      "turn": 2,
+      "ttft_seconds": 0.07914312501088716,
+      "total_seconds": 1.2404938340041554,
+      "prompt_tokens": 145,
+      "completion_tokens": 130
+    },
+    {
+      "turn": 3,
+      "ttft_seconds": 0.10276925000653137,
+      "total_seconds": 1.875012999997125,
+      "prompt_tokens": 295,
+      "completion_tokens": 197
+    }
+  ],
+  "cold_ttft_seconds": 0.12040870799683034,
+  "best_warm_ttft_seconds": 0.07914312501088716,
+  "warm_speedup": 1.521404518462805
+}
