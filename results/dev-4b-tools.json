@@ -1,0 +1,27 @@
+{
+  "engine": "rapid-mlx",
+  "model_id": "dev-4b",
+  "scenario": "responses-tool-call",
+  "tool_calls_valid": 3,
+  "tool_calls_total": 3,
+  "attempts": [
+    {
+      "seconds": 0.341855165999732,
+      "valid": true,
+      "call_count": 1,
+      "error": null
+    },
+    {
+      "seconds": 0.3208609580033226,
+      "valid": true,
+      "call_count": 1,
+      "error": null
+    },
+    {
+      "seconds": 0.31829554100113455,
+      "valid": true,
+      "call_count": 1,
+      "error": null
+    }
+  ]
+}
