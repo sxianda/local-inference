@@ -15,10 +15,13 @@ fi
 "${VENV_DIR}/bin/python" -m pip install -e "${PROJECT_DIR}[dev,model-download]"
 
 if [[ -f "${PROJECT_DIR}/vendor/Rapid-MLX/pyproject.toml" ]]; then
+  if ! git -C "${PROJECT_DIR}/vendor/Rapid-MLX" remote get-url upstream >/dev/null 2>&1; then
+    git -C "${PROJECT_DIR}/vendor/Rapid-MLX" remote add upstream \
+      https://github.com/raullenchai/Rapid-MLX.git
+  fi
   "${VENV_DIR}/bin/python" -m pip install -e "${PROJECT_DIR}/vendor/Rapid-MLX[dev]"
 else
   echo "warning: vendor/Rapid-MLX is not initialized; run git submodule update --init" >&2
 fi
 
 echo "Environment ready: ${VENV_DIR}"
-

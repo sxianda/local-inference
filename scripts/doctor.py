@@ -5,6 +5,7 @@ import platform
 import shutil
 import subprocess
 import sys
+from pathlib import Path
 
 from local_inference.model_files import validate_model_directory
 from local_inference.registry import load_registry
@@ -17,6 +18,10 @@ def main() -> int:
     failed = False
 
     rapid = shutil.which("rapid-mlx")
+    if rapid is None:
+        project_cli = Path(__file__).resolve().parents[1] / ".venv/bin/rapid-mlx"
+        if project_cli.is_file():
+            rapid = str(project_cli)
     if rapid:
         result = subprocess.run([rapid, "--version"], capture_output=True, text=True, check=False)
         print(f"Rapid-MLX: {(result.stdout or result.stderr).strip()}")

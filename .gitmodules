@@ -1,0 +1,3 @@
+[submodule "vendor/Rapid-MLX"]
+	path = vendor/Rapid-MLX
+	url = https://github.com/sxianda/Rapid-MLX.git

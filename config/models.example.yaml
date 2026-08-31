@@ -8,7 +8,9 @@ models:
     modelscope: lmstudio-community/Qwen3.5-4B-MLX-4bit
     huggingface: mlx-community/Qwen3.5-4B-MLX-4bit
     extra_args:
-      - --no-think
+      - --served-model-name
+      - dev-4b
+      - --no-thinking
 
   agent-9b:
     path: /Users/soleilx/Models/Qwen3.5-9B-MLX-4bit
@@ -16,11 +18,17 @@ models:
     quantization: MLX-4bit
     modelscope: lmstudio-community/Qwen3.5-9B-MLX-4bit
     huggingface: mlx-community/Qwen3.5-9B-4bit
+    extra_args:
+      - --served-model-name
+      - agent-9b
 
   qwen38-27b:
     path: /Users/soleilx/Models/Qwen3.8-27B-4bit
     role: production-validation
     quantization: MLX-4bit
+    extra_args:
+      - --served-model-name
+      - qwen38-27b
 
   qwen38-dflash2-q4:
     path: /Users/soleilx/Models/Qwen3.8-27B-DFlash2-4bit

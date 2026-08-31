@@ -19,7 +19,7 @@ These fields are populated after the personal fork submodule is attached:
 
 - Stable release: `v0.13.2`
 - Commit SHA: `7da40670f349f9faa4b690b48be5110953496610`
-- Fork: `PENDING`
+- Fork: `https://github.com/sxianda/Rapid-MLX.git`
 - Upstream: `https://github.com/raullenchai/Rapid-MLX.git`
 
 The submodule pointer is the source of truth. Never develop against an unidentified moving branch.
