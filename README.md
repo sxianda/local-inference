@@ -5,6 +5,9 @@ repository owns model acquisition, launch profiles, Codex configuration, API tes
 and findings. Rapid-MLX itself is pinned as `vendor/Rapid-MLX` and remains unchanged until a
 reproducible upstream gap is demonstrated.
 
+- Integration repository: <https://github.com/sxianda/local-inference>
+- Rapid-MLX fork: <https://github.com/sxianda/Rapid-MLX>
+
 ## Safety defaults
 
 - Services listen on `127.0.0.1:8000`.
@@ -49,4 +52,3 @@ See [RAPID_MLX_EXECUTION_PLAN.md](RAPID_MLX_EXECUTION_PLAN.md) and
 
 Integration code in this repository is Apache-2.0. The Rapid-MLX submodule and model weights keep
 their own licenses; they are not relicensed by this project.
-
