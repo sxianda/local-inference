@@ -28,9 +28,15 @@ The submodule pointer is the source of truth. Never develop against an unidentif
 
 | Path | Format | Approximate disk size |
 |---|---|---:|
+| `/Users/soleilx/Models/Qwen3.5-4B-MLX-4bit` | MLX 4-bit | 2.9 GB |
+| `/Users/soleilx/Models/Qwen3.5-9B-MLX-4bit` | MLX 4-bit | 5.6 GB |
 | `/Users/soleilx/Models/Qwen3.8-27B-4bit` | MLX affine 4-bit | 15 GB |
 | `/Users/soleilx/Models/Qwen3.8-27B-DFlash2-4bit` | MLX affine 4-bit | 1.0 GB |
 | `/Users/soleilx/Models/Qwen3.8-27B-DFlash2` | BF16 | 3.6 GB |
+
+The 4B and 9B models were acquired from ModelScope on 2026-08-31. Both passed JSON,
+tokenizer, shard-index, shard-presence, and non-empty-weight validation before their staging
+directories were atomically renamed into place. See [model_inventory.md](model_inventory.md).
 
 The existing `qwen38` Conda environment is a protected reference and is not modified by this
 project.

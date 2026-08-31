@@ -46,7 +46,8 @@ RAPID_MLX_BASE_URL=http://127.0.0.1:8000/v1 \
 ```
 
 See [RAPID_MLX_EXECUTION_PLAN.md](RAPID_MLX_EXECUTION_PLAN.md) and
-[docs/operations.md](docs/operations.md) for the gated validation sequence.
+[docs/operations.md](docs/operations.md) for the gated validation sequence. The verified external
+model set is recorded in [docs/model_inventory.md](docs/model_inventory.md).
 
 ## License
 
