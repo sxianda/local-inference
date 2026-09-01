@@ -18,5 +18,10 @@ summary; individual JSON files retain request-level evidence.
 
 TTFT and decode throughput are directly measured. `estimated_shared_prompt_ratio` describes logical
 overlap between requests and is deliberately not labeled a cache hit. Rapid-MLX 0.13.2 does not
-expose recurrent prefix-hit tokens for the observed MLLM path, so `runtime_cache_hit_tokens` remains
-null until instrumentation is available.
+expose recurrent prefix-hit tokens, so `runtime_cache_hit_tokens` remains null even though the text
+scheduler logs recurrent boundary snapshots and prompt-cache saves.
+
+The aggregate uses the Qwen3.8-27B `*-text-lane.json` results. The tracked registry supplies
+`--no-mllm`, which prevents text-only requests from being serialized through the automatically
+selected MLLM lane. The original `qwen38-27b-*.json` files remain committed as the failing automatic
+lane baseline and are not silently overwritten.

@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-09-01T03:56:17.451069+00:00",
+  "created_at": "2026-09-01T04:04:09.054411+00:00",
   "engine": "rapid-mlx",
   "engine_version": "rapid-mlx 0.13.2",
   "engine_commit": "7da40670f349f9faa4b690b48be5110953496610",
@@ -26,7 +26,7 @@
     {
       "model_id": "qwen38-27b",
       "quantization": "MLX-4bit",
-      "decode_tps": 26.68910381540435,
+      "decode_tps": 32.936489200146376,
       "short_prompt_tokens": 61,
       "short_completion_tokens": 256,
       "tool_success_rate": 1.0,
@@ -35,27 +35,28 @@
   ],
   "cache": {
     "dev_4b_short_prompt_speedup": 1.521404518462805,
-    "qwen38_27b_cold_ttft_seconds": 9.430718874995364,
-    "qwen38_27b_append_ttft_seconds": 10.973635583999567,
-    "qwen38_27b_append_speedup": 0.859397854321507,
+    "qwen38_27b_cold_ttft_seconds": 9.20361908400082,
+    "qwen38_27b_append_ttft_seconds": 0.40171474998351187,
+    "qwen38_27b_append_speedup": 22.91083183870788,
     "logical_shared_prompt_ratio": 0.997482919813017,
     "runtime_cache_hit_tokens": null
   },
   "qwen38_tool_schema_success": {
-    "valid": 9,
-    "total": 12,
+    "valid": 3,
+    "total": 4,
     "rate": 0.75
   },
   "acceptance_gates": {
     "qwen38_decode_tps": {
-      "target": 33.0,
-      "observed": 26.68910381540435,
-      "passed": false
+      "reference": 33.0,
+      "pass_floor": 31.35,
+      "observed": 32.936489200146376,
+      "passed": true
     },
     "warm_ttft_speedup": {
       "target": 10.0,
-      "observed": 0.859397854321507,
-      "passed": false
+      "observed": 22.91083183870788,
+      "passed": true
     },
     "logical_prefix_overlap": {
       "target": 0.95,

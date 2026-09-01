@@ -1,0 +1,21 @@
+{
+  "engine": "rapid-mlx",
+  "engine_version": "rapid-mlx 0.13.2",
+  "engine_commit": "7da40670f349f9faa4b690b48be5110953496610",
+  "model_id": "qwen38-27b",
+  "model_name": "qwen38-27b",
+  "quantization": "MLX-4bit",
+  "scenario": "short-responses",
+  "prompt_tokens": 61,
+  "completion_tokens": 256,
+  "ttft_seconds": null,
+  "total_seconds": 7.772534541989444,
+  "prompt_tps": null,
+  "decode_tps": 32.936489200146376,
+  "cache_hit_tokens": null,
+  "peak_memory_gb": null,
+  "tool_calls_valid": null,
+  "tool_calls_total": null,
+  "error": null,
+  "created_at": "2026-09-01T04:01:33.120284+00:00"
+}

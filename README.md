@@ -51,7 +51,8 @@ model set is recorded in [docs/model_inventory.md](docs/model_inventory.md).
 
 The measured baseline and keep/wrap/fork decision are in
 [docs/rapid_mlx_findings.md](docs/rapid_mlx_findings.md). DFlash2 remains gated because the 9B
-multi-step Agent case and 27B recurrent-prefix speedup do not yet pass.
+multi-step Agent case does not yet pass. Qwen3.8-27B now uses the thin wrapper's text-lane override
+and passes the recurrent-prefix gate.
 
 ## License
 

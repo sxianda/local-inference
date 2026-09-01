@@ -1,0 +1,49 @@
+{
+  "engine": "rapid-mlx",
+  "model_id": "qwen38-27b",
+  "scenario": "responses-tool-schema-change",
+  "attempts": [
+    {
+      "schema": "lookup_issue",
+      "valid": true,
+      "actual": {
+        "name": "lookup_issue",
+        "arguments": {
+          "number": 7
+        }
+      }
+    },
+    {
+      "schema": "lookup_label",
+      "valid": false,
+      "actual": {
+        "name": "lookup_label",
+        "arguments": {
+          "name": "label"
+        }
+      }
+    },
+    {
+      "schema": "lookup_issue",
+      "valid": true,
+      "actual": {
+        "name": "lookup_issue",
+        "arguments": {
+          "number": 7
+        }
+      }
+    },
+    {
+      "schema": "lookup_label",
+      "valid": true,
+      "actual": {
+        "name": "lookup_label",
+        "arguments": {
+          "name": "validation"
+        }
+      }
+    }
+  ],
+  "valid": 3,
+  "total": 4
+}
