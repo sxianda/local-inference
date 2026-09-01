@@ -28,7 +28,7 @@ installation. Hugging Face remains a failure-only fallback.
 | Cancellation and timeout recovery | pass | pass | pass | model API suite |
 | Fixed-schema tool calls | 3/3 | 5/5 | 5/5 | sanitized tool JSON |
 | Codex simple repair loop | n/a | pass | not run | 9B report |
-| Codex multi-step refactor | n/a | fail | pending | 9B report |
+| Codex multi-step refactor | n/a | pass | pending | 9B report |
 | Long-prefix integrity | n/a | n/a | pass | no state corruption/crash |
 | Long-prefix runtime reuse | n/a | n/a | pass | 22.91x on the text lane |
 | Alternating tool schemas | n/a | n/a | 9/12 | 27B schema runs |
@@ -59,7 +59,9 @@ improved from 9.20 seconds cold to 0.40 seconds warm (22.91x). The logical prefi
    restores boundary snapshots and passes at 22.91x.
 5. The 9B Codex profile must disable unrelated plugin/App tools; otherwise the tool inventory grows
    from 10 to 368 and the first prompt approaches 150,000 input tokens.
-6. Port 8000 is occupied by a separately managed authenticated `omlx-server`; Rapid-MLX validation
+6. Local fallback models must invoke the `apply_patch` executable through `exec_command` using
+   Codex's unnumbered `@@` patch grammar; treating it as a Responses function is unsupported.
+7. Port 8000 is occupied by a separately managed authenticated `omlx-server`; Rapid-MLX validation
    used port 8001 without changing that process.
 
 No `ArraysCache.trim` crash, cache-state corruption, malformed SSE sequence, or post-cancellation
@@ -80,14 +82,14 @@ correctly served through supported launch/configuration options.
 
 ## DFlash2 gate
 
-DFlash2 remains blocked because Issue #4's complex 9B Agent fixture is open, so the first seven
-milestones have not all passed. Neither DFlash2 launcher integration nor the 60 tok/s target will be
-claimed until that gap is resolved.
+The first seven validation milestones now pass. DFlash2 may proceed through its own Issue #8 branch;
+no DFlash2 result or 60 tok/s claim is made in this baseline decision.
 
 Detailed evidence:
 
 - [4B validation](4b_validation.md)
 - [9B Codex validation](9b_codex_validation.md)
+- [9B Codex fixture result](../results/agent-9b-codex-fixture.json)
 - [Qwen3.8-27B validation](qwen38_27b_validation.md)
 - [benchmark suite](benchmark_suite.md)
 - machine-readable [comparison](../results/comparison.json)

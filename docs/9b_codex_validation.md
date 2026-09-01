@@ -31,11 +31,21 @@ serialization attempts, and a simple disposable Agent repair:
 - reran three tests successfully;
 - completed multiple shell/tool-result turns.
 
-The stricter scenario—also requiring an `apply_patch` edit and a cross-file rename—did not pass
-reliably. One run completed the repair and edge tests but stopped before the rename; another produced
-invalid patch framing and failed to recover. The harness postcondition correctly returned non-zero.
-Therefore 9B is validated for fast protocol and simple Agent-loop development, but it is not yet a
-reliable floor for multi-step refactors on this setup.
+The stricter scenario initially failed because the prompt asked for `apply_patch` as a Responses
+function. Codex expects a different item type for its native patch tool, while Rapid-MLX deliberately
+advertises `apply_patch_tool_type=null` for local fallback models and instructs them to invoke the
+local executable through `exec_command`. The 9B model also defaulted to GNU-style numbered hunk
+headers, which Codex's patch grammar rejects.
+
+The committed fixture now states the actual local contract: call `apply_patch` through
+`exec_command`, start with `*** Begin Patch`, use `*** Update File:` sections and unnumbered `@@`
+hunks, and end with `*** End Patch`. With that model-visible grammar, the bounded 9B validation
+repaired the arithmetic bug, renamed the function across both files, added negative-number tests,
+used shell/tool-result loops, and passed all three postcondition tests. No Rapid-MLX code change was
+required. The successful bounded run reported 45,359 total tokens; this is suitable for development
+validation but reinforces using explicit, narrow tasks on 9B.
+
+Sanitized evidence: [agent-9b-codex-fixture.json](../results/agent-9b-codex-fixture.json)
 
 ## Operational finding
 
@@ -47,6 +57,6 @@ checks the port before loading a model and fails with an ownership-inspection co
 
 ## Decision
 
-Keep Rapid-MLX unchanged. Retain 4B for protocol development and 9B for short Agent loops, but use
-27B for the acceptance-quality Codex scenarios. Issue #4 remains open until the full rename and
-`apply_patch` fixture passes consistently.
+Keep Rapid-MLX unchanged. Retain 4B for protocol development, use 9B for bounded Agent loops with
+the explicit local patch grammar, and use 27B for less constrained acceptance-quality Codex tasks.
+The successful fixture closes Issue #4 without introducing a maintained fork divergence.

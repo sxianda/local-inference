@@ -1,0 +1,20 @@
+{
+  "engine": "rapid-mlx",
+  "engine_version": "rapid-mlx 0.13.2",
+  "engine_commit": "7da40670f349f9faa4b690b48be5110953496610",
+  "model_id": "agent-9b",
+  "quantization": "MLX-4bit",
+  "scenario": "codex-multistep-repair-rename-and-test",
+  "codex_cli_version": "0.151.0-alpha.7.2",
+  "wire_api": "responses",
+  "patch_transport": "exec_command invoking apply_patch",
+  "patch_grammar": "codex unnumbered context hunks",
+  "tests_passed": 3,
+  "tests_total": 3,
+  "postconditions_passed": true,
+  "old_symbol_absent": true,
+  "new_symbol_present": true,
+  "codex_reported_tokens_used": 45359,
+  "error": null,
+  "created_at": "2026-09-01T04:17:00Z"
+}

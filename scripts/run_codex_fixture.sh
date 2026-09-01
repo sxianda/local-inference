@@ -15,10 +15,35 @@ git -C "${WORK_DIR}" commit -qm "fixture baseline"
 
 echo "Disposable fixture: ${WORK_DIR}"
 echo "The directory is retained after Codex exits for inspection."
+PROMPT="Work only in the current disposable directory and do not inspect parent directories.
+Use ./test-runner for tests; do not install packages or create an environment. Read both Python
+files and run the failing tests. Fix the subtraction bug, add a negative-number edge-case test, and
+rename subtract to difference across the implementation and tests.
+
+Make file edits by invoking apply_patch inside exec_command. Do not call apply_patch as a Responses
+function tool. The command must use this Codex patch grammar (replace the illustrative lines with
+exact file context and include all required edits):
+
+apply_patch <<'PATCH'
+*** Begin Patch
+*** Update File: calculator.py
+@@
+-old exact line
++new exact line
+*** Update File: test_calculator.py
+@@
+-old exact line
++new exact line
+*** End Patch
+PATCH
+
+The hunk marker must be only @@ with no GNU line ranges. Do not pass -p flags and do not use sed,
+awk, perl, Python, or shell redirection to edit. After editing, rerun ./test-runner -q. If it fails,
+inspect the files once, repair them with the same patch grammar, and rerun until all tests pass."
 PATH="${PROJECT_DIR}/.venv/bin:${PATH}" codex --strict-config --profile rapid-mlx \
   -c "model_providers.rapid-mlx.base_url=\"${BASE_URL}\"" \
   --sandbox workspace-write --ask-for-approval never exec -C "${WORK_DIR}" \
-  "Work only in the current disposable directory and do not inspect parent directories. Use ./test-runner for tests; do not install packages or create an environment. Run the tests, fix the subtraction bug, add an edge-case test, then rename subtract to difference across the implementation and tests. Use the apply_patch tool for file edits. Rerun the tests and summarize the changes."
+  "${PROMPT}"
 
 "${PROJECT_DIR}/.venv/bin/python" -m pytest -q "${WORK_DIR}"
 (
