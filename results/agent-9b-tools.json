@@ -1,0 +1,39 @@
+{
+  "engine": "rapid-mlx",
+  "model_id": "agent-9b",
+  "scenario": "responses-tool-call",
+  "tool_calls_valid": 5,
+  "tool_calls_total": 5,
+  "attempts": [
+    {
+      "seconds": 0.8083417909947457,
+      "valid": true,
+      "call_count": 1,
+      "error": null
+    },
+    {
+      "seconds": 0.4611977080057841,
+      "valid": true,
+      "call_count": 1,
+      "error": null
+    },
+    {
+      "seconds": 0.4594577499956358,
+      "valid": true,
+      "call_count": 1,
+      "error": null
+    },
+    {
+      "seconds": 0.4582164159946842,
+      "valid": true,
+      "call_count": 1,
+      "error": null
+    },
+    {
+      "seconds": 0.45930699999735225,
+      "valid": true,
+      "call_count": 1,
+      "error": null
+    }
+  ]
+}

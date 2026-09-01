@@ -18,9 +18,47 @@ requires_openai_auth = false
 stream_idle_timeout_ms = 600000
 """
 PROFILE_CONTENT = """# Local Rapid-MLX overlay; use with: codex --profile rapid-mlx
-model = "default"
+model = "agent-9b"
+model_provider = "rapid-mlx"
+model_reasoning_effort = "none"
+
+[features]
+apps = false
+browser_use = false
+computer_use = false
+goals = false
+image_generation = false
+in_app_browser = false
+multi_agent = false
+plugins = false
+recommended_plugins = false
+remote_plugin = false
+skill_search = false
+tool_suggest = false
+view_image = false
+workspace_dependencies = false
+"""
+SKIP_HOST_PROFILE_CONTENT = PROFILE_CONTENT.replace(
+    "tool_suggest = false", "skip_host_skill_discovery = true\ntool_suggest = false"
+)
+LEGACY_PROFILE_CONTENT = """# Local Rapid-MLX overlay; use with: codex --profile rapid-mlx
+model = "agent-9b"
 model_provider = "rapid-mlx"
 model_supports_reasoning_summaries = false
+"""
+PREVIOUS_PROFILE_CONTENT = """# Local Rapid-MLX overlay; use with: codex --profile rapid-mlx
+model = "agent-9b"
+model_provider = "rapid-mlx"
+"""
+LOW_REASONING_PROFILE_CONTENT = """# Local Rapid-MLX overlay; use with: codex --profile rapid-mlx
+model = "agent-9b"
+model_provider = "rapid-mlx"
+model_reasoning_effort = "low"
+"""
+NONE_REASONING_PROFILE_CONTENT = """# Local Rapid-MLX overlay; use with: codex --profile rapid-mlx
+model = "agent-9b"
+model_provider = "rapid-mlx"
+model_reasoning_effort = "none"
 """
 
 
@@ -64,8 +102,17 @@ def main() -> int:
         print(f"Backup: {backup}")
     if updated != original:
         config_path.write_text(updated, encoding="utf-8")
-    if profile_path.exists() and profile_path.read_text(encoding="utf-8") != PROFILE_CONTENT:
-        raise SystemExit(f"existing {profile_path} differs; refusing to overwrite")
+    if profile_path.exists():
+        existing_profile = profile_path.read_text(encoding="utf-8")
+        if existing_profile not in {
+            PROFILE_CONTENT,
+            LEGACY_PROFILE_CONTENT,
+            PREVIOUS_PROFILE_CONTENT,
+            LOW_REASONING_PROFILE_CONTENT,
+            NONE_REASONING_PROFILE_CONTENT,
+            SKIP_HOST_PROFILE_CONTENT,
+        }:
+            raise SystemExit(f"existing {profile_path} differs; refusing to overwrite")
     profile_path.write_text(PROFILE_CONTENT, encoding="utf-8")
     print(f"Configured provider in {config_path}")
     print(f"Configured profile in {profile_path}")
@@ -74,4 +121,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

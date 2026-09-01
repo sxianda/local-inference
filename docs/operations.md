@@ -45,12 +45,16 @@ Apply the idempotent user-level configuration after a Responses smoke test passe
 ```bash
 .venv/bin/python scripts/configure_codex.py --dry-run
 .venv/bin/python scripts/configure_codex.py
-codex --strict-config --profile rapid-mlx doctor --summary
-codex --profile rapid-mlx -C /path/to/disposable/project
+codex --strict-config doctor --summary
+codex --strict-config --profile rapid-mlx exec -C /path/to/disposable/project
 ```
 
 The configurator backs up `~/.codex/config.toml` before adding the provider and refuses to replace
 conflicting existing provider or profile content.
+
+The current Codex CLI only applies `--profile` to runtime commands, so validate the overlay with a
+small `codex --strict-config --profile rapid-mlx exec ...` request. `codex doctor` diagnoses the base
+configuration and rejects the profile flag; it is not a valid profile smoke command in this build.
 
 ## Tests and benchmarks
 
@@ -62,4 +66,3 @@ RAPID_MLX_BASE_URL=http://127.0.0.1:8000/v1 \
   --model-id dev-4b --quantization MLX-4bit \
   --output results/dev-4b-short-responses.json
 ```
-
