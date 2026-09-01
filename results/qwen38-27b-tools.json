@@ -1,0 +1,39 @@
+{
+  "engine": "rapid-mlx",
+  "model_id": "qwen38-27b",
+  "scenario": "responses-tool-call",
+  "tool_calls_valid": 5,
+  "tool_calls_total": 5,
+  "attempts": [
+    {
+      "seconds": 1.3509232079959475,
+      "valid": true,
+      "call_count": 1,
+      "error": null
+    },
+    {
+      "seconds": 1.346028458996443,
+      "valid": true,
+      "call_count": 1,
+      "error": null
+    },
+    {
+      "seconds": 1.3529928750067484,
+      "valid": true,
+      "call_count": 1,
+      "error": null
+    },
+    {
+      "seconds": 1.359828832995845,
+      "valid": true,
+      "call_count": 1,
+      "error": null
+    },
+    {
+      "seconds": 1.3884479160187766,
+      "valid": true,
+      "call_count": 1,
+      "error": null
+    }
+  ]
+}
