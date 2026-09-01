@@ -29,6 +29,7 @@ models:
     extra_args:
       - --served-model-name
       - qwen38-27b
+      - --no-mllm
 
   qwen38-dflash2-q4:
     path: /Users/soleilx/Models/Qwen3.8-27B-DFlash2-4bit

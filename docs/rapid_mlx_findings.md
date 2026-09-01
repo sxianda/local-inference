@@ -1,6 +1,6 @@
 # Rapid-MLX Baseline Findings
 
-Status: **baseline complete; focused fork work required before DFlash2**
+Status: **baseline complete; pinned upstream plus thin integration wrapper selected**
 
 Validation dates: 2026-08-31 through 2026-09-01
 
@@ -30,7 +30,7 @@ installation. Hugging Face remains a failure-only fallback.
 | Codex simple repair loop | n/a | pass | not run | 9B report |
 | Codex multi-step refactor | n/a | fail | pending | 9B report |
 | Long-prefix integrity | n/a | n/a | pass | no state corruption/crash |
-| Long-prefix runtime reuse | n/a | n/a | fail | 0.86x warm/cold TTFT |
+| Long-prefix runtime reuse | n/a | n/a | pass | 22.91x on the text lane |
 | Alternating tool schemas | n/a | n/a | 9/12 | 27B schema runs |
 
 ## Performance
@@ -39,23 +39,24 @@ installation. Hugging Face remains a failure-only fallback.
 |---|---:|---:|---:|---:|---:|
 | 4B short Responses | n/a | n/a | 105.69 | 3/3 | not recorded |
 | 9B short Responses | n/a | n/a | 76.11 | 5/5 | not recorded |
-| 27B 256-token Responses | n/a | n/a | 26.69 | 5/5 fixed schema | 19.46 GB |
-| 27B 8,322-token append | 9.43 s | 10.97 s | n/a | n/a | 19.46 GB |
+| 27B automatic MLLM lane | 9.43 s | 10.97 s | 26.69 | 5/5 fixed schema | 19.46 GB |
+| 27B forced text lane | 9.20 s | 0.40 s | 32.94 | 5/5 fixed schema | not remeasured |
 
-The 27B reference decode target of approximately 33 tok/s was not reached. Its 26.69 tok/s result is
-about 81% of that reference. More importantly, the required 10x warm TTFT improvement was not
-present. The logical prompt overlap was 99.75%, but runtime speedup was 0.86x; logical overlap is not
-a cache hit metric.
+Automatic routing failed both the decode reference and warm-TTFT gate. Adding the existing
+`--no-mllm` flag moved the checkpoint onto Rapid-MLX's hybrid text scheduler: the approximately
+33 tok/s decode reference was reached (32.94 tok/s), and the identical 8,322-token append workload
+improved from 9.20 seconds cold to 0.40 seconds warm (22.91x). The logical prefix overlap remained
+99.75%, and the scheduler logs confirmed boundary snapshots and prompt-cache saves.
 
-## Confirmed implementation gaps
+## Confirmed gaps and mitigations
 
 1. The Qwen3.8 checkpoint is detected as hybrid but routed through the serialized MLLM
    `ArraysCache` path with `max_num_seqs=1`.
 2. Text-only long prompts log a vision 8,192-token budget warning.
 3. `/v1/models` identifies a vision lane and omits tools, direct tool calls nevertheless work, and
    `/v1/cache/stats` calls the same loaded model text-only.
-4. Recurrent-state prefix restoration provides no measured TTFT improvement on the reproducible
-   append-only workload.
+4. The automatic MLLM lane provides no recurrent-state TTFT improvement; the explicit text lane
+   restores boundary snapshots and passes at 22.91x.
 5. The 9B Codex profile must disable unrelated plugin/App tools; otherwise the tool inventory grows
    from 10 to 368 and the first prompt approaches 150,000 input tokens.
 6. Port 8000 is occupied by a separately managed authenticated `omlx-server`; Rapid-MLX validation
@@ -66,27 +67,22 @@ health failure occurred in the bounded runs.
 
 ## Decision
 
-**Maintain a focused Rapid-MLX fork.**
+**Keep pinned upstream plus a thin integration wrapper.**
 
-The main repository remains a thin integration and evidence layer. Fork changes are limited to the
-gaps that cannot be solved by launch configuration:
+The main repository's model registry supplies `--no-mllm` for `qwen38-27b`. This is an existing,
+audited Rapid-MLX override; it selects the hybrid text scheduler without changing engine code. The
+wrapper now passes the API, recurrent-cache, TTFT, prefix-overlap, and decode-reference gates.
 
-1. correct Qwen3.8 text/hybrid lane classification;
-2. restore or implement recurrent-state prefix snapshots for append-only and branch histories;
-3. expose cache-hit token and snapshot telemetry;
-4. reconcile model capability metadata with working tool behavior;
-5. add a regression covering the exact 8,322-token append case.
-
-The fork must branch from the pinned v0.13.2 commit. A fork change is accepted only if the main
-repository benchmark demonstrates at least 10x warm TTFT improvement, no recurrent-cache corruption,
-and stable API/SSE behavior. Upstreamable fixes should be proposed to `raullenchai/Rapid-MLX`; the
-main repository then updates only the submodule pointer through a separate PR.
+The personal fork remains available for upstream experiments, but no maintained divergence is
+justified by the measured baseline. The automatic lane metadata inconsistency should be reported
+upstream with both result files. A fork patch is considered only if a future checkpoint cannot be
+correctly served through supported launch/configuration options.
 
 ## DFlash2 gate
 
-DFlash2 remains blocked. Issues #4 and #5 are open, so the first seven milestones have not all
-passed. Neither DFlash2 launcher integration nor the 60 tok/s target will be claimed until those
-gaps are resolved.
+DFlash2 remains blocked because Issue #4's complex 9B Agent fixture is open, so the first seven
+milestones have not all passed. Neither DFlash2 launcher integration nor the 60 tok/s target will be
+claimed until that gap is resolved.
 
 Detailed evidence:
 

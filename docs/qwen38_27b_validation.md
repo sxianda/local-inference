@@ -9,6 +9,23 @@ Validation date: 2026-09-01
 - Host: Apple M5 Max, 64 GB unified memory
 - Validation port: 8001 because an unrelated service owns 8000
 
+## Resolution
+
+The checkpoint must be served through Rapid-MLX's existing audited text-lane override:
+
+```bash
+rapid-mlx serve /Users/soleilx/Models/Qwen3.8-27B-4bit --no-mllm
+```
+
+The tracked model registry now supplies this flag automatically. No fork code change is required.
+In the text lane Rapid-MLX reports `is_hybrid=true`, creates recurrent boundary snapshots, saves the
+prompt cache, and uses the radix index.
+
+The same 8,322-token case then measured 9.20 seconds cold, 0.40 seconds append-only, and 0.25 seconds
+on the branch request. Append speedup is 22.91x and logical prefix overlap is 99.75%, passing the 10x
+and 95% gates without state corruption. The 256-token decode sample improved to 32.94 tok/s, matching
+the approximately 33 tok/s reference.
+
 ## Passed
 
 - Local absolute-path loading without a Hub download
@@ -21,7 +38,7 @@ Validation date: 2026-09-01
 - no `ArraysCache.trim` crash
 - direct Responses tool call: 5/5 with an unchanged schema
 
-## Failed acceptance thresholds
+## Automatic-lane baseline failure
 
 The 6,000-word long-prefix case produced 8,322 prompt tokens. Cold TTFT was 9.43 seconds; the
 append-only request was 10.97 seconds and the branch request was 11.21 seconds. The logical shared
@@ -58,6 +75,7 @@ text-only. These inconsistent classifications should be included in an upstream 
 
 ## Decision
 
-Do not change the Rapid-MLX fork yet. Preserve these results as the reproducible baseline and keep
-Issue #5 open. The next engineering step is a minimal upstream reproduction focused on Qwen3.8 text
-lane selection and recurrent snapshot reuse; any fork patch must start from the pinned commit.
+Keep upstream pinned and solve this checkpoint's lane selection in the main repository's thin model
+registry. The automatic MLLM classification remains useful upstream evidence, but it does not require
+a maintained fork because `--no-mllm` restores the supported hybrid scheduler and passes the cache
+gates. Issue #5 can close with the text-lane result retained alongside the failing automatic baseline.

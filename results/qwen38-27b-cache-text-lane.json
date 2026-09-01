@@ -1,0 +1,30 @@
+{
+  "engine": "rapid-mlx",
+  "model_id": "qwen38-27b",
+  "scenario": "long-prefix-append-and-branch",
+  "prefix_words": 6000,
+  "cold": {
+    "ttft_seconds": 9.20361908400082,
+    "total_seconds": 9.660317709000083,
+    "prompt_tokens": 8322,
+    "completion_tokens": 16,
+    "output_chars": 66
+  },
+  "append": {
+    "ttft_seconds": 0.40171474998351187,
+    "total_seconds": 0.8584484999882989,
+    "prompt_tokens": 8343,
+    "completion_tokens": 16,
+    "output_chars": 66
+  },
+  "branch": {
+    "ttft_seconds": 0.2509196249884553,
+    "total_seconds": 0.7089241249777842,
+    "prompt_tokens": 8322,
+    "completion_tokens": 16,
+    "output_chars": 71
+  },
+  "estimated_shared_prompt_ratio": 0.997482919813017,
+  "append_ttft_speedup": 22.91083183870788,
+  "cache_integrity": "passed"
+}
