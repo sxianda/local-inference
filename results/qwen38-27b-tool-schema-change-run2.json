@@ -1,0 +1,25 @@
+{
+  "engine": "rapid-mlx",
+  "model_id": "qwen38-27b",
+  "scenario": "responses-tool-schema-change",
+  "attempts": [
+    {
+      "schema": "lookup_issue",
+      "valid": true
+    },
+    {
+      "schema": "lookup_label",
+      "valid": false
+    },
+    {
+      "schema": "lookup_issue",
+      "valid": true
+    },
+    {
+      "schema": "lookup_label",
+      "valid": true
+    }
+  ],
+  "valid": 3,
+  "total": 4
+}
