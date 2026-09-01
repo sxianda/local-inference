@@ -5,6 +5,7 @@ import argparse
 import os
 import shutil
 import signal
+import socket
 import subprocess
 from pathlib import Path
 
@@ -18,12 +19,24 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--config", type=Path)
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", default=8000, type=int)
-    parser.add_argument("rapid_args", nargs=argparse.REMAINDER)
-    return parser.parse_args()
+    args, rapid_args = parser.parse_known_args()
+    args.rapid_args = rapid_args
+    return args
+
+
+def ensure_port_available(host: str, port: int) -> None:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as probe:
+        probe.settimeout(0.2)
+        if probe.connect_ex((host, port)) == 0:
+            raise SystemExit(
+                f"refusing to start: {host}:{port} already has a listener; "
+                f"inspect it with `lsof -nP -iTCP:{port} -sTCP:LISTEN`"
+            )
 
 
 def main() -> int:
     args = parse_args()
+    ensure_port_available(args.host, args.port)
     spec = get_model(args.model_id, args.config)
     validation = validate_model_directory(spec.path, require_tokenizer=spec.requires_tokenizer)
     if not validation.valid:
